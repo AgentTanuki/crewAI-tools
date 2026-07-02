@@ -8,6 +8,9 @@ from .aws import (
     S3WriterTool,
 )
 from .tools import (
+    AgentGuildCheckTool,
+    AgentGuildRiskScoreTool,
+    AgentGuildVerifyPassportTool,
     AIMindTool,
     ApifyActorsTool,
     ArxivPaperTool,
