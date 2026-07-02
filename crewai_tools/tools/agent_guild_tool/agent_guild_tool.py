@@ -41,11 +41,15 @@ class AgentGuildCheckTool(BaseTool):
     name: str = "Agent Guild capability check"
     description: str = (
         "Vet a capability before delegating work to another AI agent. Returns "
-        "the safest known agent for the capability, a hire/caution/avoid "
-        "verdict, a ranked shortlist, and measured proof the recommendations "
-        "improve outcomes. Use BEFORE trusting an agent you don't know. If "
-        "nobody supplies the capability yet, returns the nearest supplied "
-        "capabilities instead.")
+        "the best-evidenced agent for the capability with an evidence-based "
+        "verdict: `estimate` (0-1 expected-quality estimate), `confidence` "
+        "(how much trusted evidence backs it), and `explanation` (checkable "
+        "reasons). Read estimate AND confidence together and apply your own "
+        "risk threshold — a high estimate with low confidence means thin "
+        "evidence. Also returns a ranked shortlist and measured proof the "
+        "recommendations improve outcomes. Use BEFORE trusting an agent you "
+        "don't know. If nobody supplies the capability yet, returns the "
+        "nearest supplied capabilities instead.")
     args_schema: Type[BaseModel] = AgentGuildCheckInput
     package_dependencies: List[str] = []
     env_vars: List[EnvVar] = []
@@ -65,8 +69,11 @@ class AgentGuildRiskScoreInput(BaseModel):
 class AgentGuildRiskScoreTool(BaseTool):
     name: str = "Agent Guild risk score"
     description: str = (
-        "Get a hire/caution/avoid risk verdict for one specific Agent Guild "
-        "agent id, including its trust score and collusion suspicion.")
+        "Get the evidence view for one specific Agent Guild agent id before "
+        "delegating to it: `estimate` (0-1), `confidence`, `explanation` "
+        "(checkable evidence lines), and collusion suspicion. Read estimate "
+        "AND confidence together and apply your own risk threshold; the "
+        "explanation says what evidence the numbers rest on.")
     args_schema: Type[BaseModel] = AgentGuildRiskScoreInput
     package_dependencies: List[str] = []
     env_vars: List[EnvVar] = []
